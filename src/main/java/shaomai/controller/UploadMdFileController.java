@@ -22,6 +22,14 @@ public class UploadMdFileController {
         uploadService = service;
     }
 
+    /**
+     * 上传文章 markdown 格式
+     * @param file 文章
+     * @param title  文章标题
+     * @param author 文章作者
+     * @return
+     * @throws IOException
+     */
     @RequestMapping(value = "/uploadMdFile", method = RequestMethod.POST)
     @ResponseBody
     public Response<Boolean> uploadMdFile(

@@ -40,6 +40,12 @@ public class ArtController {
         return artResponse;
     }
 
+    /**
+     * 查询某篇文章
+     * @param id 文章的id
+     * @return
+     * @throws ArtSelectException
+     */
     @RequestMapping("/art/{id}")
     public Response<ArtBean> getArtById(@PathVariable("id") int id) throws ArtSelectException {
         ArtBean artBean = artService.getArtById(id);

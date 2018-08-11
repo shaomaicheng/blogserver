@@ -1,13 +1,17 @@
 package shaomai.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import shaomai.Log;
 
 import java.util.Map;
+
+import static shaomai.utils.Constant.*;
+import static shaomai.utils.ParseParamsUtil.parseParams;
 
 /**
  * user controller
@@ -16,8 +20,9 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
-    Logger logger = LoggerFactory.getLogger(getClass());
+ 
+    @Autowired
+    private Log logger;
 
     /**
      * signin  注册接口，注册成功返回用户信息
@@ -26,10 +31,19 @@ public class UserController {
      */
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
     public String signin(@RequestParam Map<String, Object> params) {
-        if (params.containsKey("number")) {
-            String number = (String) params.get("number");
-            logger.info("/signin;  number: " + number);
-        }
+        // get http params
+//        String number = (String) parseParams(params, NUMBER);
+//        String email = (String) parseParams(params, EMAIL);
+//        int level = (int) parseParams(params, LEVEL);
+//        String name = (String) parseParams(params, NAME);
+//        String password = (String) parseParams(params, PASSWORD);
+//        String company = (String) parseParams(params, COMPANY);
+//        String title = (String) parseParams(params, TITLE);
+//        String avatar = (String) parseParams(params, AVATAR);
+//        String introduction = (String) parseParams(params, INTRODUCTION);
+
+        logger.info("/signIn");
+
         return "";
     }
 }

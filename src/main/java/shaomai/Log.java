@@ -265,7 +265,7 @@ public class Log {
      *         false otherwise.
      */
     public boolean isDebugEnabled(Marker marker) {
-        logger.isDebugEnabled(marker);
+        return logger.isDebugEnabled(marker);
     }
 
     /**
@@ -564,7 +564,7 @@ public class Log {
      *         false otherwise.
      */
     public boolean isWarnEnabled(Marker marker) {
-        logger.isWarnEnabled(marker);
+        return logger.isWarnEnabled(marker);
     }
 
     /**

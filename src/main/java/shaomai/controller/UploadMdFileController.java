@@ -2,7 +2,6 @@ package shaomai.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import shaomai.model.Response;
@@ -16,11 +15,6 @@ import static shaomai.Code.OK_STATUS;
 public class UploadMdFileController {
     protected UploadService uploadService;
     protected Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Autowired
-    public UploadMdFileController(UploadService service) {
-        uploadService = service;
-    }
 
     /**
      * 上传文章 markdown 格式

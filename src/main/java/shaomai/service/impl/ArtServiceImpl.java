@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import shaomai.Log;
 import shaomai.dao.ArtDao;
 import shaomai.exception.ArtSelectException;
 import shaomai.model.p.ArtBean;
@@ -15,7 +16,9 @@ import java.util.List;
 public class ArtServiceImpl implements ArtService {
     @Autowired
     private ArtDao artDao;
-    Logger logger = LoggerFactory.getLogger(getClass());
+
+    @Autowired
+    private Log logger;
 
     @Override
     public List<ArtBean> getAllArts(int pageNo,int pageSize) throws ArtSelectException {

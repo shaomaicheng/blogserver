@@ -1,17 +1,19 @@
 package shaomai.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shaomai.Log;
+import shaomai.exception.NumberIllegalException;
+import shaomai.utils.TextUtil;
 
 import java.util.Map;
 
 import static shaomai.utils.Constant.*;
-import static shaomai.utils.ParseParamsUtil.parseParams;
+import static shaomai.utils.ParseParamsUtil.parseIntParams;
+import static shaomai.utils.ParseParamsUtil.parseStringParams;
 
 /**
  * user controller
@@ -20,7 +22,7 @@ import static shaomai.utils.ParseParamsUtil.parseParams;
 @RestController
 @RequestMapping("/user")
 public class UserController {
- 
+
     @Autowired
     private Log logger;
 
@@ -30,20 +32,26 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String signin(@RequestParam Map<String, Object> params) {
+    public String signin(@RequestParam Map<String, Object> params) throws NumberIllegalException {
         // get http params
-//        String number = (String) parseParams(params, NUMBER);
-//        String email = (String) parseParams(params, EMAIL);
-//        int level = (int) parseParams(params, LEVEL);
-//        String name = (String) parseParams(params, NAME);
-//        String password = (String) parseParams(params, PASSWORD);
-//        String company = (String) parseParams(params, COMPANY);
-//        String title = (String) parseParams(params, TITLE);
-//        String avatar = (String) parseParams(params, AVATAR);
-//        String introduction = (String) parseParams(params, INTRODUCTION);
+        String number = parseStringParams(params, NUMBER);
+        String email = parseStringParams(params, EMAIL);
+        int level = parseIntParams(params, LEVEL);
+        String name = parseStringParams(params, NAME);
+        String password = parseStringParams(params, PASSWORD);
+        String company = parseStringParams(params, COMPANY);
+        String title = parseStringParams(params, TITLE);
+        String avatar = parseStringParams(params, AVATAR);
+        String introduction = parseStringParams(params, INTRODUCTION);
 
-        logger.info("/signIn");
+        if (!isNumberLegitimate(number)) {
+            throw new NumberIllegalException();
+        }
 
         return "";
+    }
+
+    private boolean isNumberLegitimate(String number) {
+        return TextUtil.isEmpty(number) && number.length() == 11;
     }
 }

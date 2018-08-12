@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import shaomai.Code;
+import shaomai.exception.Code;
 import shaomai.exception.ArtSelectException;
 import shaomai.model.Response;
 import shaomai.model.p.ArtBean;
@@ -14,7 +14,7 @@ import shaomai.service.ArtService;
 
 import java.util.List;
 
-import static shaomai.Code.OK_STATUS;
+import static shaomai.exception.Code.OK_STATUS;
 
 @RestController
 public class ArtController {

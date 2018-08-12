@@ -10,8 +10,8 @@ import shaomai.exception.ArtSelectException;
 import shaomai.exception.ExceptionManager;
 import shaomai.exception.NumberIllegalException;
 
-import static shaomai.Code.ART_SELECT_ERROR_CODE;
-import static shaomai.Code.NUMBER_ILLEGAL_ERROR_CODE;
+import static shaomai.exception.Code.ART_SELECT_ERROR_CODE;
+import static shaomai.exception.Code.NUMBER_ILLEGAL_ERROR_CODE;
 
 @SpringBootApplication
 public class Application {

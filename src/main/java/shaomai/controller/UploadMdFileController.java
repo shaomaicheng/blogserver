@@ -9,7 +9,7 @@ import shaomai.service.UploadService;
 
 import java.io.IOException;
 
-import static shaomai.Code.OK_STATUS;
+import static shaomai.exception.Code.OK_STATUS;
 
 @RestController
 public class UploadMdFileController {

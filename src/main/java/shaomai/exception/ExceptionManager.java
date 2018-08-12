@@ -3,7 +3,7 @@ package shaomai.exception;
 import java.util.HashMap;
 import java.util.Map;
 
-import static shaomai.Code.COMMON_ERROR_CODE;
+import static shaomai.exception.Code.COMMON_ERROR_CODE;
 
 public class ExceptionManager {
 

@@ -1,4 +1,4 @@
-package shaomai;
+package shaomai.exception;
 
 public interface Code {
     int UPLOAD_FAIL = 1001;

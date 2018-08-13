@@ -7,13 +7,13 @@ public class User {
     private long id;
     private String number;
     private String email;
-    private String level;
+    private int level;
     private String name;
     private String password;
     private String company;
     private String title;
-    private String avatar;
-    private String introdiction;
+    private String avatar = "";
+    private String introduction;
 
     public long getId() {
         return id;
@@ -39,11 +39,11 @@ public class User {
         this.email = email;
     }
 
-    public String getLevel() {
+    public int getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(int level) {
         this.level = level;
     }
 
@@ -87,11 +87,11 @@ public class User {
         this.avatar = avatar;
     }
 
-    public String getIntrodiction() {
-        return introdiction;
+    public String getIntroduction() {
+        return introduction;
     }
 
-    public void setIntrodiction(String introdiction) {
-        this.introdiction = introdiction;
+    public void setIntroduction(String introduction) {
+        this.introduction = introduction;
     }
 }

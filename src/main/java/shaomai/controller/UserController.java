@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import shaomai.Log;
 import shaomai.exception.NumberIllegalException;
+import shaomai.exception.user.NameIllegalException;
+import shaomai.exception.user.PasswordIllegaException;
+import shaomai.model.p.User;
+import shaomai.service.UserService;
 import shaomai.utils.TextUtil;
 
 import java.util.Map;
@@ -26,13 +30,17 @@ public class UserController {
     @Autowired
     private Log logger;
 
+    @Autowired
+    private UserService userService;
+
     /**
-     * signin  注册接口，注册成功返回用户信息
+     * insert  注册接口，注册成功返回用户信息
      * @param params
      * @return
      */
-    @RequestMapping(value = "/signin", method = RequestMethod.POST)
-    public String signin(@RequestParam Map<String, Object> params) throws NumberIllegalException {
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
+    public String signin(@RequestParam Map<String, Object> params)
+            throws NumberIllegalException, NameIllegalException, PasswordIllegaException {
         // get http params
         String number = parseStringParams(params, NUMBER);
         String email = parseStringParams(params, EMAIL);
@@ -48,10 +56,29 @@ public class UserController {
             throw new NumberIllegalException();
         }
 
+        if (TextUtil.isEmpty(name)) {
+            throw new NameIllegalException();
+        }
+
+        if (TextUtil.isEmpty(password)) {
+            throw new PasswordIllegaException();
+        }
+
+        User user = new User();
+
+        user.setNumber(number);
+        user.setEmail(email);
+        user.setLevel(level);
+        user.setCompany(company);
+        user.setTitle(title);
+        user.setAvatar(avatar);
+        user.setIntroduction(introduction);
+
         return "";
     }
 
     private boolean isNumberLegitimate(String number) {
-        return TextUtil.isEmpty(number) && number.length() == 11;
+        return number.equals("") || number.length() == 11;
     }
+
 }

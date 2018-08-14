@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import shaomai.Log;
 import shaomai.exception.NumberIllegalException;
 import shaomai.exception.user.NameIllegalException;
+import shaomai.exception.user.PasswordEncryptException;
 import shaomai.exception.user.PasswordIllegaException;
 import shaomai.model.p.User;
 import shaomai.service.UserService;
@@ -40,7 +41,7 @@ public class UserController {
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String signin(@RequestParam Map<String, Object> params)
-            throws NumberIllegalException, NameIllegalException, PasswordIllegaException {
+            throws NumberIllegalException, NameIllegalException, PasswordIllegaException, PasswordEncryptException {
         // get http params
         String number = parseStringParams(params, NUMBER);
         String email = parseStringParams(params, EMAIL);
@@ -74,7 +75,13 @@ public class UserController {
         user.setAvatar(avatar);
         user.setIntroduction(introduction);
 
-        return "";
+
+        try {
+            userService.signin(user);
+        } catch (Exception e) {
+            logger.error("服务端注册密码加密错误");
+            throw new PasswordEncryptException();
+        }
     }
 
     private boolean isNumberLegitimate(String number) {

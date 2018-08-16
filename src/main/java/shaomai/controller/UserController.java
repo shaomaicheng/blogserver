@@ -9,8 +9,8 @@ import shaomai.Log;
 import shaomai.exception.Code;
 import shaomai.exception.NumberIllegalException;
 import shaomai.exception.user.NameIllegalException;
-import shaomai.exception.user.UserException;
 import shaomai.exception.user.PasswordIllegaException;
+import shaomai.exception.user.UserException;
 import shaomai.model.Response;
 import shaomai.model.p.User;
 import shaomai.model.v.VUser;
@@ -122,4 +122,27 @@ public class UserController {
         return number.equals("") || number.length() == 11;
     }
 
+
+    /**
+     * 更新用户的不必填信息
+     * 包括： email、company、title（职称）、avatar、introduction
+     * @param params
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public Response<Boolean> updateUser(@RequestParam Map<String,String> params) {
+        long id = Long.parseLong(params.get(ID));
+        String email = params.get(EMAIL);
+        String company = params.get(COMPANY);
+        String title = params.get(TITLE);
+        String introduction = params.get(INTRODUCTION);
+        User user = new User();
+        user.setId(id);
+        user.setEmail(email);
+        user.setCompany(company);
+        user.setTitle(title);
+        user.setIntroduction(introduction);
+        boolean updateSuccess = userService.updateUser(user);
+        return new Response<Boolean>(Code.OK_STATUS, updateSuccess ? "用户资料更新成功" : "用户资料更新失败", updateSuccess);
+    }
 }

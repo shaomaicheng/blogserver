@@ -29,4 +29,10 @@ public interface UserDao {
             @Result(property = "introduction", column = "u_introduction")
     })
     User login(@Param("username") String username, @Param("password")String password);
+
+
+    @Update("update tb_user set u_email=#{email}, u_company=#{company}, " +
+            "u_title=#{title}, u_avatar=#{avatar}, u_introduction=#{introduction} where u_id=#{id}")
+    int updateUser(User user);
+
 }

@@ -22,10 +22,15 @@ public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
 
     @Override
-    public VUser signin(User user) throws Exception {
+    public VUser signin(User user) throws UserException {
         String password = user.getPassword();
         // 加密
-        password = new String(AES.encrypt(password, KEY));
+        try {
+            password = new String(AES.encrypt(password, KEY));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new UserException("注册失败");
+        }
         user.setPassword(password);
 
         int insertResult = userDao.insert(user);
@@ -54,5 +59,16 @@ public class UserServiceImpl implements UserService {
         } else {
             return null;
         }
+    }
+
+    /**
+     * 更新 user 资料
+     * @param user
+     * @return
+     */
+    @Override
+    public boolean updateUser(User user) {
+        int result = userDao.updateUser(user);
+        return result == 1;
     }
 }

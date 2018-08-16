@@ -56,4 +56,18 @@ public class UserDaoTest {
         assertEquals(resUser.getName(), "程磊");
         assertEquals(resUser.getPassword(), "123456");
     }
+
+    @Test
+    @Rollback
+    public void updateTest() {
+        User user = new User();
+        user.setId(9);
+        user.setEmail("chenglei@mistong.com");
+        user.setTitle("高级工程师");
+        user.setCompany("杭州明食堂");
+        user.setIntroduction("劳资就是牛逼");
+
+        int updateResult = userDao.updateUser(user);
+        assertEquals(updateResult, 1);
+    }
 }

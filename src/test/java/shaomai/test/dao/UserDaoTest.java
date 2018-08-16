@@ -23,7 +23,7 @@ public class UserDaoTest {
 
     @Test
     @Rollback
-    public void insertTest() {
+    public void signTest() {
         User user = new User();
         user.setEmail("1241616455@qq.com");
         user.setLevel(1);
@@ -33,5 +33,27 @@ public class UserDaoTest {
 
         int insertResult = userDao.insert(user);
         assertEquals(insertResult, 1);
+    }
+
+    @Test
+    @Rollback
+    public void loginTest() {
+
+        User user = new User();
+        user.setEmail("1241616455@qq.com");
+        user.setLevel(1);
+        user.setNumber("18216728528");
+        user.setName("程磊");
+        user.setPassword("123456");
+
+        int insertResult = userDao.insert(user);
+        assertEquals(insertResult, 1);
+
+        String username = "程磊";
+        String password = "123456";
+
+        User resUser = userDao.login(username, password);
+        assertEquals(resUser.getName(), "程磊");
+        assertEquals(resUser.getPassword(), "123456");
     }
 }

@@ -14,4 +14,7 @@ public interface UserService {
 
     // 更新user 资料
     boolean updateUser(User user);
+
+    // 根据user id获取用户 数据
+    VUser queryUserInfoById(long id);
 }

@@ -70,4 +70,12 @@ public class UserDaoTest {
         int updateResult = userDao.updateUser(user);
         assertEquals(updateResult, 1);
     }
+
+    @Test
+    @Rollback
+    public void queryTest() {
+        long id = 9;
+        User user = userDao.queryUserById(id);
+        assertEquals(user.getId(), 9);
+    }
 }

@@ -71,4 +71,16 @@ public class UserServiceImpl implements UserService {
         int result = userDao.updateUser(user);
         return result == 1;
     }
+
+    /**
+     * 根据 id 查询user
+     * @param id
+     * @return
+     */
+    @Override
+    public VUser queryUserInfoById(long id) {
+        User user = userDao.queryUserById(id);
+
+        return userRepository.convertVO(user);
+    }
 }

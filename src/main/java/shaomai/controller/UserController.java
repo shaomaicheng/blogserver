@@ -1,10 +1,7 @@
 package shaomai.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import shaomai.Log;
 import shaomai.exception.Code;
 import shaomai.exception.NumberIllegalException;
@@ -144,5 +141,19 @@ public class UserController {
         user.setIntroduction(introduction);
         boolean updateSuccess = userService.updateUser(user);
         return new Response<Boolean>(Code.OK_STATUS, updateSuccess ? "用户资料更新成功" : "用户资料更新失败", updateSuccess);
+    }
+
+    /**
+     * 根据 userid 获取user info 并返回
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/query/{id}", method = RequestMethod.POST)
+    public Response<VUser> queryUserById(@PathVariable("id") long id) {
+        VUser vUser = userService.queryUserInfoById(id);
+        if (vUser == null) {
+            throw new NullPointerException("用户信息获取失败");
+        }
+        return new Response<>(Code.OK_STATUS, "用户资料查询成功", vUser);
     }
 }

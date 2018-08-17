@@ -9,6 +9,9 @@ import shaomai.model.v.VUser;
 public class UserRepository {
 
     public VUser convertVO(User user) {
+        if (user == null) {
+            return null;
+        }
         VUser vUser = new VUser();
         vUser.setUserId(user.getId());
         vUser.setNumber(user.getNumber());

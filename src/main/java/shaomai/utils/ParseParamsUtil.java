@@ -1,5 +1,7 @@
 package shaomai.utils;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import java.util.Map;
 
 public class ParseParamsUtil {
@@ -20,23 +22,23 @@ public class ParseParamsUtil {
      * @return
      */
     public static int parseIntParams(Map<String, Object> params, String param) {
-        return (int) params.getOrDefault(param, -1);
+        return Integer.valueOf((String) params.getOrDefault(param, "-1"));
     }
 
     public static long parseLongParams(Map<String, Object> params, String param) {
-        return (long) params.getOrDefault(param, -1);
+        return Long.parseLong((String) params.getOrDefault(param, "-1"));
     }
 
     public static float parseFloatParams(Map<String, Object> params, String param) {
-        return (float) params.getOrDefault(param, -1.0f);
+        return Float.valueOf((String) params.getOrDefault(param, -1.0f));
     }
 
     public static double parseDoubleParams(Map<String, Object> params, String param) {
-        return (double) params.getOrDefault(param, -1.0f);
+        return Double.parseDouble((String) params.getOrDefault(param, -1.0f));
     }
 
     public static boolean parseBooleanParams(Map<String, Object> params, String param) {
-        return (boolean) params.getOrDefault(param, false);
+        return Boolean.getBoolean((String) params.getOrDefault(param, false));
     }
 
     public static String parseStringParams(Map<String, Object> params, String param) {

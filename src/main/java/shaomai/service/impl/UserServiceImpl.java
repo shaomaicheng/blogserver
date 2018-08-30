@@ -9,6 +9,7 @@ import shaomai.model.p.User;
 import shaomai.model.v.VUser;
 import shaomai.repository.UserRepository;
 import shaomai.service.UserService;
+import shaomai.service.logic.TokenGenerater;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -20,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private TokenGenerater tokenGenerater;
 
     @Override
     public VUser signin(User user) throws UserException {
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
         }
         // 查询数据库
         User user = userDao.login(username, password);
+
         if (user != null) {
             return userRepository.convertVO(user);
         } else {
@@ -83,4 +88,5 @@ public class UserServiceImpl implements UserService {
 
         return userRepository.convertVO(user);
     }
+
 }

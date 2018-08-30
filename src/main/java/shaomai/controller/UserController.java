@@ -14,6 +14,7 @@ import shaomai.model.v.VUser;
 import shaomai.service.UserService;
 import shaomai.utils.TextUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import static shaomai.utils.Constant.*;
@@ -41,7 +42,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Response<VUser> login(@RequestParam("username")String username, @RequestParam("password")String password)
+    public Response<VUser> login(@RequestParam("username")String username, @RequestParam("password")String password, HttpServletRequest request)
             throws NameIllegalException, PasswordIllegaException, UserException {
         if (TextUtil.isEmpty(username)) {
             throw new NameIllegalException();
@@ -55,6 +56,10 @@ public class UserController {
         if (vUser == null) {
             throw new NullPointerException("登录失败");
         } else {
+
+            //  存redis
+//            request.getSession().setAttribute("userId", vUser.getUserId());
+
             return new Response<>(Code.OK_STATUS, "登录成功", vUser);
         }
     }
@@ -95,13 +100,17 @@ public class UserController {
         user.setNumber(number);
         user.setEmail(email);
         user.setLevel(level);
+        user.setPassword(password);
         user.setCompany(company);
+        user.setTitle(title);
+        user.setAvatar(avatar);
+        user.setName(name);
         user.setTitle(title);
         user.setAvatar(avatar);
         user.setIntroduction(introduction);
 
 
-        VUser vUser = null;
+        VUser vUser;
         try {
             vUser = userService.signin(user);
         } catch (Exception e) {
@@ -140,7 +149,7 @@ public class UserController {
         user.setTitle(title);
         user.setIntroduction(introduction);
         boolean updateSuccess = userService.updateUser(user);
-        return new Response<Boolean>(Code.OK_STATUS, updateSuccess ? "用户资料更新成功" : "用户资料更新失败", updateSuccess);
+        return new Response<>(Code.OK_STATUS, updateSuccess ? "用户资料更新成功" : "用户资料更新失败", updateSuccess);
     }
 
     /**

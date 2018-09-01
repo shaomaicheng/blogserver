@@ -9,9 +9,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import shaomai.exception.ArtSelectException;
 import shaomai.exception.ExceptionManager;
 import shaomai.exception.NumberIllegalException;
+import shaomai.exception.TokenException;
 
 import static shaomai.exception.Code.ART_SELECT_ERROR_CODE;
 import static shaomai.exception.Code.NUMBER_ILLEGAL_ERROR_CODE;
+import static shaomai.exception.Code.TOKEN_INVALIED;
 
 @SpringBootApplication
 public class Application {
@@ -37,5 +39,6 @@ public class Application {
     private static void registerException() {
         ExceptionManager.registerException(ArtSelectException.class, ART_SELECT_ERROR_CODE);
         ExceptionManager.registerException(NumberIllegalException.class, NUMBER_ILLEGAL_ERROR_CODE);
+        ExceptionManager.registerException(TokenException.class, TOKEN_INVALIED);
     }
 }

@@ -12,11 +12,16 @@ import shaomai.model.Response;
 import shaomai.model.p.User;
 import shaomai.model.v.VUser;
 import shaomai.service.UserService;
+import shaomai.service.logic.TokenGenerater;
 import shaomai.utils.TextUtil;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+import static shaomai.constant.CookieConstant.*;
+import static shaomai.constant.CookieConstant.EXPIR_TIME;
 import static shaomai.utils.Constant.*;
 import static shaomai.utils.ParseParamsUtil.parseIntParams;
 import static shaomai.utils.ParseParamsUtil.parseStringParams;
@@ -35,6 +40,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TokenGenerater tokenGenerater;
+
     /**
      * login 登录接口
      * @param username
@@ -42,7 +50,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public Response<VUser> login(@RequestParam("username")String username, @RequestParam("password")String password, HttpServletRequest request)
+    public Response<VUser> login(@RequestParam("username")String username, @RequestParam("password")String password, HttpServletResponse response)
             throws NameIllegalException, PasswordIllegaException, UserException {
         if (TextUtil.isEmpty(username)) {
             throw new NameIllegalException();
@@ -59,10 +67,17 @@ public class UserController {
 
             //  存redis
 //            request.getSession().setAttribute("userId", vUser.getUserId());
+            String userId = String.valueOf(vUser.getUserId());
+            String time = String.valueOf(System.currentTimeMillis());
+            String token = tokenGenerater.generateToken(userId, time, password);
+
+            tokenGenerater.setCookie(response, token, userId, time);
 
             return new Response<>(Code.OK_STATUS, "登录成功", vUser);
         }
     }
+
+
 
     /**
      * insert  注册接口，注册成功返回用户信息
@@ -70,7 +85,7 @@ public class UserController {
      * @return
      */
     @RequestMapping(value = "/insert", method = RequestMethod.POST)
-    public Response<VUser> signin(@RequestParam Map<String, Object> params)
+    public Response<VUser> signin(@RequestParam Map<String, Object> params, HttpServletResponse response)
             throws NumberIllegalException, NameIllegalException, PasswordIllegaException, UserException {
         // get http params
         String number = parseStringParams(params, NUMBER);
@@ -113,6 +128,7 @@ public class UserController {
         VUser vUser;
         try {
             vUser = userService.signin(user);
+
         } catch (Exception e) {
             logger.error("服务端注册密码加密错误");
             throw new UserException("注册失败");
@@ -121,6 +137,11 @@ public class UserController {
         if (vUser == null) {
             throw new NullPointerException("注册失败");
         }
+
+        String time = String.valueOf(System.currentTimeMillis());
+        String userId = String.valueOf(vUser.getUserId());
+        String token = tokenGenerater.generateToken(userId, time, password);
+        tokenGenerater.setCookie(response, token, userId, time);
         return new Response<>(Code.OK_STATUS, "注册成功", vUser);
     }
 

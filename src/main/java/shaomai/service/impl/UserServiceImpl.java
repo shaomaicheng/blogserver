@@ -2,7 +2,6 @@ package shaomai.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import shaomai.AES;
 import shaomai.dao.UserDao;
 import shaomai.exception.user.UserException;
 import shaomai.model.p.User;
@@ -30,7 +29,7 @@ public class UserServiceImpl implements UserService {
         String password = user.getPassword();
         // 加密
         try {
-            password = new String(AES.encrypt(password, KEY));
+//            password = new String(AES.encrypt(password, KEY));
         } catch (Exception e) {
             e.printStackTrace();
             throw new UserException("注册失败");
@@ -40,7 +39,6 @@ public class UserServiceImpl implements UserService {
         int insertResult = userDao.insert(user);
         if (insertResult == 1) {
             // user 注册进数据库
-
             VUser vUser = userRepository.convertVO(user);
             return vUser;
 
@@ -51,7 +49,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public VUser login(String username, String password) throws UserException {
         try {
-            password = new String(AES.encrypt(password, KEY));
+//            password = new String(AES.encrypt(password, KEY));
         } catch (Exception e) {
             e.printStackTrace();
             throw new UserException("登录失败");

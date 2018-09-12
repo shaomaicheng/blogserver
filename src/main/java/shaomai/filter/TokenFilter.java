@@ -47,7 +47,12 @@ public class TokenFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
 
         String path = request.getServletPath();
-        boolean needVerifToken = !tokenConfiger.inBlackList(path); // 是否需要验证
+        boolean needVerifToken = !tokenConfiger.inWhiteList(path); // 是否需要验证
+
+        if (!needVerifToken) {
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
 
         Cookie[] cookies = request.getCookies();
 
@@ -55,7 +60,7 @@ public class TokenFilter implements Filter {
         String time = "0";
         String token = "";
 
-        if (needVerifToken && cookies != null) {
+        if (cookies != null) {
             for (Cookie cookie : cookies) {
                 // 遍历cookie
                 if (cookie.getName().equals(CookieConstant.USER_ID)) {
@@ -85,11 +90,9 @@ public class TokenFilter implements Filter {
         }
 
         // 验证 token
-        if (needVerifToken) {
-            verifToken(time, userId, token);
-            if (cookies != null) {
-                refreshToken(cookies, userId, (HttpServletResponse)servletResponse);
-            }
+        verifToken(time, userId, token);
+        if (cookies != null) {
+            refreshToken(cookies, userId, (HttpServletResponse) servletResponse);
         }
 
         filterChain.doFilter(servletRequest, servletResponse);

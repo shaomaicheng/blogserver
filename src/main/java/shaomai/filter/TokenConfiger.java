@@ -18,6 +18,8 @@ public class TokenConfiger {
         noVerifPathList.add("/*.ico");
         noVerifPathList.add("/user/login");
         noVerifPathList.add("/user/insert");
+        noVerifPathList.add("/kttest");
+        noVerifPathList.add("/favicon.ico");
     }
 
     boolean tokenOverdue(String time) {
@@ -27,7 +29,7 @@ public class TokenConfiger {
         return currentTime - realTime > tokenValidityTime;
     }
 
-    boolean inBlackList(String path) {
+    boolean inWhiteList(String path) {
         for (String itemPath : noVerifPathList) {
             if (path.equals(itemPath)) {
                 return true;

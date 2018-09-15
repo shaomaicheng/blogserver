@@ -18,6 +18,7 @@ import shaomai.utils.TextUtil;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
 import java.util.Map;
 
 import static shaomai.constant.CookieConstant.*;
@@ -98,7 +99,7 @@ public class UserController {
         String avatar = parseStringParams(params, AVATAR);
         String introduction = parseStringParams(params, INTRODUCTION);
 
-        if (!isNumberLegitimate(number)) {
+        if (!userService.isNumberLegitimate(number)) {
             throw new NumberIllegalException();
         }
 
@@ -130,7 +131,7 @@ public class UserController {
             vUser = userService.signin(user);
 
         } catch (Exception e) {
-            logger.error("服务端注册密码加密错误");
+            logger.error("注册失败, 异常类型：" + e.getClass().getSimpleName() + "; message: " + e.getMessage());
             throw new UserException("注册失败");
         }
 
@@ -144,11 +145,6 @@ public class UserController {
         tokenGenerater.setCookie(response, token, userId, time);
         return new Response<>(Code.OK_STATUS, "注册成功", vUser);
     }
-
-    private boolean isNumberLegitimate(String number) {
-        return number.equals("") || number.length() == 11;
-    }
-
 
     /**
      * 更新用户的不必填信息
@@ -185,5 +181,16 @@ public class UserController {
             throw new NullPointerException("用户信息获取失败");
         }
         return new Response<>(Code.OK_STATUS, "用户资料查询成功", vUser);
+    }
+
+
+    /**
+     * 根据电话号码判断用户是否存在
+     * @param phoneNumber
+     * @return
+     */
+    @RequestMapping(value = "/query/isexit/{pnumber}", method = RequestMethod.GET)
+    public Response<Boolean> judgeIsExitByPhoneNumber(@PathVariable("pnumber") String phoneNumber) {
+        return new Response<>(Code.OK_STATUS, "查询用户是否存在成功", userService.judgeIsExitByPhoneNumber(phoneNumber));
     }
 }

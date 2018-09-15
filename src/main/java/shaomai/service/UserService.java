@@ -17,4 +17,9 @@ public interface UserService {
 
     // 根据user id获取用户 数据
     VUser queryUserInfoById(long id);
+
+
+    boolean judgeIsExitByPhoneNumber(String phoneNumber);
+
+    boolean isNumberLegitimate(String number);
 }

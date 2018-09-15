@@ -52,4 +52,19 @@ public interface UserDao {
     })
     User queryUserById(long id);
 
+    @Select("select * from tb_user where u_number=#{phoneNumber}")
+    @Results({
+            @Result(property = "id", column = "u_id"),
+            @Result(property = "number", column = "u_number"),
+            @Result(property = "email", column = "u_email"),
+            @Result(property = "level", column = "u_level"),
+            @Result(property = "name", column = "u_name"),
+            @Result(property = "password", column = "u_password"),
+            @Result(property = "company", column = "u_company"),
+            @Result(property = "title", column = "u_title"),
+            @Result(property = "avatar", column = "u_avatar"),
+            @Result(property = "introduction", column = "u_introduction")
+    })
+    User queryUserByPhoneNumber(String phoneNumber);
+
 }

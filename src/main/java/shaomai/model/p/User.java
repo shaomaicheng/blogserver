@@ -7,6 +7,7 @@ public class User {
     private long id;
     private String number;
     private String email;
+    // 等级 1是个人  2是组织
     private int level;
     private String name;
     private String password;

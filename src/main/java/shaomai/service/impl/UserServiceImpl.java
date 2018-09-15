@@ -9,6 +9,10 @@ import shaomai.model.v.VUser;
 import shaomai.repository.UserRepository;
 import shaomai.service.UserService;
 import shaomai.service.logic.TokenGenerater;
+import shaomai.utils.TextUtil;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -28,12 +32,6 @@ public class UserServiceImpl implements UserService {
     public VUser signin(User user) throws UserException {
         String password = user.getPassword();
         // 加密
-        try {
-//            password = new String(AES.encrypt(password, KEY));
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new UserException("注册失败");
-        }
         user.setPassword(password);
 
         int insertResult = userDao.insert(user);
@@ -85,6 +83,20 @@ public class UserServiceImpl implements UserService {
         User user = userDao.queryUserById(id);
 
         return userRepository.convertVO(user);
+    }
+
+    @Override
+    public boolean judgeIsExitByPhoneNumber(String phoneNumber) {
+        User user = userDao.queryUserByPhoneNumber(phoneNumber);
+        return user != null;
+    }
+
+    public boolean isNumberLegitimate(String number) {
+        return !TextUtil.isEmpty(number) && number.length() == 11 && isNum(number);
+    }
+
+    public boolean isNum(String number) {
+        return Pattern.matches("1[0-9]{10}", number);
     }
 
 }

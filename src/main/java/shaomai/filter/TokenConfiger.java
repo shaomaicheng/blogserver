@@ -2,6 +2,7 @@ package shaomai.filter;
 
 
 import org.springframework.stereotype.Component;
+import shaomai.utils.FilterUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +21,7 @@ public class TokenConfiger {
         noVerifPathList.add("/user/insert");
         noVerifPathList.add("/kttest");
         noVerifPathList.add("/favicon.ico");
+        noVerifPathList.add("/user/query/isexit/1[0-9]{10}");
     }
 
     boolean tokenOverdue(String time) {
@@ -31,10 +33,11 @@ public class TokenConfiger {
 
     boolean inWhiteList(String path) {
         for (String itemPath : noVerifPathList) {
-            if (path.equals(itemPath)) {
+            if (path.equals(itemPath) || FilterUtils.matchUrl(path, itemPath)) {
                 return true;
             }
         }
         return false;
     }
+
 }
